@@ -19,7 +19,7 @@ class User(models.Model):
     registration_date = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return self.first_name + " " + self.surname   
+        return f"{self.first_name} {self.surname}"
     
 class UserAddress(models.Model):
     address_id = models.AutoField(primary_key=True)
@@ -30,4 +30,4 @@ class UserAddress(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
     
     def __str__(self):
-        return self.address_id + ", "+ self.city + ", " + self.district + ", " + self.ward + ", " + self.street
+        return f"{self.address_id}, {self.city}, {self.district}, {self.ward}, {self.street}"
