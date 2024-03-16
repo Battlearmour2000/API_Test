@@ -47,10 +47,12 @@ def post_address_data(request):
         return Response(user_serializer.errors, status=400)
 
 
-# class UserAddressView(viewsets.ModelViewSet):
-#     queryset = UserAddress.objects.all()
-#     serializer_class = UserAddress_serializer
-    
-# class UserView(viewsets.ModelViewSet):
-#     queryset = User.objects.all()
-#     serializer_class = User_serializer
+@api_view(["GET"])
+def get_specific_user__address(request, user_id):
+    try:
+        user = User.objects.get(user_id=user_id)
+        address = UserAddress.objects.get(user_id=user_id)
+        serialized_address = UserAddress_serializer(address)
+        return Response(serialized_address.data)
+    except User.DoesNotExist:
+        return Response({"error": "User not found"}, status=404)
