@@ -11,7 +11,7 @@ def get_data(request):
     return Response(serializer.data)
 
 @api_view(["GET"])
-def get_Addressdata(request):
+def get_address_data(request):
     user = UserAddress.objects.all()
     serializer = UserAddress_serializer(user, many=True) #many=True is used when we have multiple items to be sent in response. otherwise set to false
     return Response(serializer.data)
@@ -24,7 +24,7 @@ def post_data(request):
     return Response(serializer.data) #returns the data that was posted
 
 @api_view(["POST"])
-def post_Addressdata(request):
+def post_address_data(request):
     user_serializer = User_serializer(data=request.data)
 
     if user_serializer.is_valid():
