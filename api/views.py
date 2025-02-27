@@ -11,7 +11,7 @@ def get_data(request):
     return Response(serializer.data)
 
 @api_view(["GET"])
-def get_Addressdata(request):
+def get_address_data(request):
     user = UserAddress.objects.all()
     serializer = UserAddress_serializer(user, many=True) #many=True is used when we have multiple items to be sent in response. otherwise set to false
     return Response(serializer.data)
@@ -24,7 +24,7 @@ def post_data(request):
     return Response(serializer.data) #returns the data that was posted
 
 @api_view(["POST"])
-def post_Addressdata(request):
+def post_address_data(request):
     user_serializer = User_serializer(data=request.data)
 
     if user_serializer.is_valid():
@@ -47,10 +47,12 @@ def post_Addressdata(request):
         return Response(user_serializer.errors, status=400)
 
 
-# class UserAddressView(viewsets.ModelViewSet):
-#     queryset = UserAddress.objects.all()
-#     serializer_class = UserAddress_serializer
-    
-# class UserView(viewsets.ModelViewSet):
-#     queryset = User.objects.all()
-#     serializer_class = User_serializer
+@api_view(["GET"])
+def get_specific_user__address(request, user_id):
+    try:
+        user = User.objects.get(user_id=user_id)
+        address = UserAddress.objects.get(user_id=user_id)
+        serialized_address = UserAddress_serializer(address)
+        return Response(serialized_address.data)
+    except User.DoesNotExist:
+        return Response({"error": "User not found"}, status=404)
